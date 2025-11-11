@@ -2,23 +2,25 @@ from vectors import *
 from sala import *
 
 class Aspirador:
-    def __init__(self,posição:MatrixCoord=MatrixCoord(0,0),bateria:float=1.0,raio:int=4):
+    def __init__(self,posição:MatrixCoord=MatrixCoord(0,0),raio:int=4, bateria:float=1.0):
         #                  ^ UTF-8 ftw 🥳
         self.posição = posição
-        self.bateria = bateria
         self.raio = raio
+        self.bateria = bateria
         self.estação = posição
         self.sala: Sala
-        self.consumo:float
+        self.consumo: float
     
     def limpar(self):
         if self.bateria <= 0:
             raise RuntimeError("Bateria esgotada!")
+        self.bateria = self.bateria - self.consumo
         self.sala.piso.at(self.posição).write(LIMPO)
 
     def mover(self,dir:Vector2D):
         if self.bateria <= 0:
             raise RuntimeError("Bateria esgotada!")
+        self.bateria = self.bateria - self.consumo
         atual = Vector2D.from_matrix_coord(self.posição)
         destino = atual + dir
         self.posição = MatrixCoord(destino.x,destino.y)
