@@ -1,6 +1,9 @@
 import math
 from typing import Tuple, Any
 from dataclasses import dataclass, field
+from collections import namedtuple
+
+MatrixCoord = namedtuple("MatrixCoord",['x','y'])
 
 # gud stuff
 @dataclass
@@ -15,6 +18,11 @@ class Vector2D():
     def RIGHT(): return Vector2D(1,0)
     @staticmethod
     def LEFT(): return Vector2D(-1,0)
+    @staticmethod
+    def from_matrix_coord(coord:MatrixCoord):
+        return Vector2D(coord.x,coord.y)
+    def to_matrix_coord(self):
+        return MatrixCoord(int(self.x),int(self.y))
     x: float
     y: float
     def __add__(self, other): return Vector2D(self.x+other.x, self.y+other.y)
@@ -37,4 +45,4 @@ class MatrixData():
 @dataclass
 class Matrix2D():
     data: Tuple[Tuple[MatrixData,...],...]
-    def at(self,x,y) -> MatrixData: return self.data[x][y]
+    def at(self,pos:MatrixCoord) -> MatrixData: return self.data[pos.x][pos.y]
