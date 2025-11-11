@@ -46,3 +46,5 @@ class MatrixData():
 class Matrix2D():
     data: Tuple[Tuple[MatrixData,...],...]
     def at(self,pos:MatrixCoord) -> MatrixData: return self.data[pos.x][pos.y]
+    def x_size(self) -> int: return len(self.data)
+    def y_size(self) -> int: return len(self.data[0])
