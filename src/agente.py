@@ -20,7 +20,7 @@ class AspiradorGuloso(Aspirador):
         self.fim = False
         self.visitado: set[MatrixCoord] = set()
         self.ultima_posição = self.posição
-        self.retornar_estação = False
+        self.retornar_para_estação = False
         self.ram:dict[int,dict] = {}
         self.ram[self.CICLO_PERIMETRO] = {}
         self.ram[self.CICLO_CIRCULAR] = {}
@@ -39,15 +39,15 @@ class AspiradorGuloso(Aspirador):
             if self.bateria <= 0.5 and not self.retornar_estação:
                 self.retornar_estação = True
             
-            if self.retornar_estação:
-                self._retornar_estação()
-                self.retornar_estação = self.bateria <= 1
+            if self.retornar_para_estação:
+                self.retornar_estação()
+                self.retornar_para_estação = self.bateria <= 1
                 continue
             
             kernel = self.observar()
             kernel_pos = Vector2D(self.raio,self.raio)
             
-            direção_sujeira = self._detectar_sujeira(kernel) - kernel_pos
+            direção_sujeira = self.detectar_sujeira(kernel) - kernel_pos
 
             if direção_sujeira != Vector2D.ZERO():
                 self.mover(direção_sujeira)
@@ -90,12 +90,12 @@ class AspiradorGuloso(Aspirador):
         self.configurado = False
 
 
-    def _retornar_estação(self):
+    def retornar_estação(self):
         if self.direção_estação != Vector2D.ZERO():
             self.mover(self.direção_estação)
         self.carregar()
 
-    def _detectar_sujeira(self,kernel:Matrix2D)->Vector2D:
+    def detectar_sujeira(self,kernel:Matrix2D)->Vector2D:
         tamanho = kernel.x_size()
         if tamanho != kernel.y_size():
             raise RuntimeError("O kernel de detecção não é uma matriz quadrada")
@@ -108,9 +108,19 @@ class AspiradorGuloso(Aspirador):
                 if piso == SUJO():
                     return Vector2D.from_matrix_coord(MatrixCoord(x,y))
         return Vector2D.ZERO()
-
-
-# f(n) = g(n) + 1.5*h(n)
-# Não tem obstaculo, não sera necessário um A*
-def a_star(n):
-    pass
+    
+    def buscar_via_largura(coord:MatrixCoord)->Tuple[MatrixCoord]:
+        coord:MatrixCoord = []
+        raise NotImplementedError
+        return tuple(coord)
+    
+    def buscar_via_profundidade(coord:MatrixCoord)->Tuple[MatrixCoord]:
+        coord:MatrixCoord = []
+        raise NotImplementedError
+        return tuple(coord)
+    
+    def buscar_via_A(coord:MatrixCoord)->Tuple[MatrixCoord]:
+        # f(n) = g(n) + 1.5*h(n)
+        coord:MatrixCoord = []
+        raise NotImplementedError
+        return tuple(coord)
