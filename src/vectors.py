@@ -32,6 +32,16 @@ class Vector2D():
     def __len__(self): return int(self.mag())
     def __hash__(self) -> int: return hash((self.x,self.y))
     def __eq__(self, value: object) -> bool: return type(value)==Vector2D and self.x == value.x and self.y == value.y
+    def __lt__(self, value: object) -> bool: 
+        valuetype = type(value)
+        if valuetype!=Vector2D:
+            raise TypeError(f'"<" not supported between instances of "Vector2D" and "{valuetype.__name__}"')
+        return self.x < value.x or self.y < value.y
+    def __gt__(self, value: object) -> bool: 
+        valuetype = type(value)
+        if valuetype!=Vector2D:
+            raise TypeError(f'">" not supported between instances of "Vector2D" and "{valuetype.__name__}"')
+        return self.x < value.x or self.y < value.y
     def dot(self, other): return self.x * other.x + self.y * other.y
     def mag(self): return math.hypot(self.x, self.y)
     def norm(self):
