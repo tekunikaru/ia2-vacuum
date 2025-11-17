@@ -20,9 +20,9 @@ class Vector2D():
     def LEFT(): return Vector2D(-1,0)
     @staticmethod
     def from_matrix_coord(coord:MatrixCoord):
-        return Vector2D(coord.y,coord.x)
+        return Vector2D(coord.x,coord.y)
     def to_matrix_coord(self):
-        return MatrixCoord(int(self.y),int(self.x))
+        return MatrixCoord(int(self.x),int(self.y))
     x: float
     y: float
     def __add__(self, other): return Vector2D(self.x+other.x, self.y+other.y)
