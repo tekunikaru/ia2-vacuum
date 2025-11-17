@@ -13,7 +13,7 @@ class Vector2D():
     @staticmethod
     def UP(): return Vector2D(0,1)
     @staticmethod
-    def DOWN(): return Vector2D(0,1)
+    def DOWN(): return Vector2D(0,-1)
     @staticmethod
     def RIGHT(): return Vector2D(1,0)
     @staticmethod
@@ -45,6 +45,6 @@ class MatrixData():
 @dataclass
 class Matrix2D():
     data: Tuple[Tuple[MatrixData,...],...]
-    def at(self,pos:MatrixCoord) -> MatrixData: return self.data[pos.x][pos.y]
-    def x_size(self) -> int: return len(self.data)
-    def y_size(self) -> int: return len(self.data[0])
+    def at(self,pos:MatrixCoord) -> MatrixData: return self.data[pos.y][pos.x]
+    def x_size(self) -> int: return len(self.data[0])
+    def y_size(self) -> int: return len(self.data)
