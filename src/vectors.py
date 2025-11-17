@@ -20,9 +20,9 @@ class Vector2D():
     def LEFT(): return Vector2D(-1,0)
     @staticmethod
     def from_matrix_coord(coord:MatrixCoord):
-        return Vector2D(coord.x,coord.y)
+        return Vector2D(coord.y,coord.x)
     def to_matrix_coord(self):
-        return MatrixCoord(int(self.x),int(self.y))
+        return MatrixCoord(int(self.y),int(self.x))
     x: float
     y: float
     def __add__(self, other): return Vector2D(self.x+other.x, self.y+other.y)
@@ -30,6 +30,8 @@ class Vector2D():
     def __mul__(self, scalar: float): return Vector2D(self.x*scalar, self.y*scalar)
     def __rmul__(self, scalar: float): return self*scalar
     def __len__(self): return int(self.mag())
+    def __hash__(self) -> int: return hash((self.x,self.y))
+    def __eq__(self, value: object) -> bool: return type(value)==Vector2D and self.x == value.x and self.y == value.y
     def dot(self, other): return self.x * other.x + self.y * other.y
     def mag(self): return math.hypot(self.x, self.y)
     def norm(self):
