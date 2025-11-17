@@ -41,13 +41,13 @@ class AspiradorGuloso(Aspirador):
             
             if self.retornar_estação:
                 self._retornar_estação()
-                self.retornar_estação = self.bateria != 1
+                self.retornar_estação = self.bateria <= 1
                 continue
             
             kernel = self.observar()
             kernel_pos = Vector2D(self.raio,self.raio)
             
-            direção_sujeira = self._detectar_sujeira(kernel)
+            direção_sujeira = self._detectar_sujeira(kernel) - kernel_pos
 
             if direção_sujeira != Vector2D.ZERO():
                 self.mover(direção_sujeira)
@@ -91,7 +91,8 @@ class AspiradorGuloso(Aspirador):
 
 
     def _retornar_estação(self):
-        self.mover(self.direção_estação)
+        if self.direção_estação != Vector2D.ZERO():
+            self.mover(self.direção_estação)
         self.carregar()
 
     def _detectar_sujeira(self,kernel:Matrix2D)->Vector2D:
@@ -101,15 +102,13 @@ class AspiradorGuloso(Aspirador):
         if tamanho > self.raio * 2 + 1:
             raise RuntimeError("O kernel de detecção é maior que a capacidade de observação")
         
-        for x in range(tamanho):
-            for y in range(tamanho):
+        for y in range(tamanho):
+            for x in range(tamanho):
                 piso = kernel.at(MatrixCoord(x,y))
-                if piso == SUJO:
-                    return Vector2D.ZERO() - Vector2D.from_matrix_coord(MatrixCoord(x,y))
+                if piso == SUJO():
+                    return Vector2D.from_matrix_coord(MatrixCoord(x,y))
         return Vector2D.ZERO()
 
-
-    
 
 # f(n) = g(n) + 1.5*h(n)
 # Não tem obstaculo, não sera necessário um A*
