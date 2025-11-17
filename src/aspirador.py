@@ -16,18 +16,22 @@ class Aspirador:
         self.consumir_bateria()
         self.sala.piso.at(self.posição).write(LIMPO().data)
 
-    def mover(self,dir:Vector2D):
+    def mover(self,dir:Vector2D)->bool:
         print(f'MOVENDO {dir} DE {self.posição}')
         self.consumir_bateria(dir.mag())
         pos_atual = Vector2D.from_matrix_coord(self.posição)
         destino = pos_atual + dir
+        if destino < Vector2D.ZERO():
+            print("COLISÃO!")
+            return False
         self.direção_estação = self.direção_estação - dir
         self.posição = destino.to_matrix_coord()
+        return True
     
     def observar(self) -> Matrix2D:
         print(f'OBSERVANDO {self.posição}')
         self.consumir_bateria()
-        kernel = [[INVALIDO() for _ in range(self.raio*2+1)] for _ in range(self.raio*2+1)]
+        kernel = [[PAREDE() for _ in range(self.raio*2+1)] for _ in range(self.raio*2+1)]
         inicio = (Vector2D.from_matrix_coord(self.posição) - Vector2D(self.raio,self.raio)).to_matrix_coord()
         
 
