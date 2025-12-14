@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from agente import AspiradorGuloso
 from sala import *
 from random import *
@@ -8,15 +7,23 @@ from random import *
 # cada aspirador vai ser testado em N salas
 # seu desempenho vai ser medido em quantidade de N salas limpas sobre total de N * G^10
 
-@dataclass
 class Fabrica():
     aspiradores: list[AspiradorGuloso]
     sala       : list[Sala]
     geração    : int = 0
-    def gerar_aspirador()->list[AspiradorGuloso]:
+    
+    def __init__(self) -> None:
         pass
 
-    def gerar_sala(quantidade:int,tamanho:int)->list[Sala]:
+    @staticmethod
+    def gerar_aspirador(quantidade:int)->list[AspiradorGuloso]:
+        aspiradores: list[AspiradorGuloso] = []
+        for _ in range(quantidade):
+            aspiradores.append(AspiradorGuloso())
+        return aspiradores
+
+    @staticmethod
+    def gerar_salas(quantidade:int,tamanho:int)->list[Sala]:
         salas:list[Sala] = []
         for _salas in range(quantidade):
             pisox = []
@@ -33,4 +40,8 @@ class Fabrica():
 
 if __name__ == "__main__":
     print("HELLO! UwU")
-    salas: list[Sala] = Fabrica.gerar_sala(5,10)
+    salas: list[Sala] = Fabrica.gerar_salas(5,10)
+
+    fabrica = Fabrica()
+    var1 = fabrica.geração
+    var2 = Fabrica.geração
