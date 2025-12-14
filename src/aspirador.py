@@ -30,7 +30,7 @@ class Aspirador:
     
     def observar(self) -> Matrix2D:
         print(f'OBSERVANDO {self.posição}')
-        self.consumir_bateria()
+        self.consumir_bateria(self.raio)
         kernel = [[PAREDE() for _ in range(self.raio*2+1)] for _ in range(self.raio*2+1)]
         inicio = (Vector2D.from_matrix_coord(self.posição) - Vector2D(self.raio,self.raio)).to_matrix_coord()
         

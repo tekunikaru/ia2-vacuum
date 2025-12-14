@@ -17,7 +17,7 @@ sala = Sala(piso = Matrix2D((
 # A unidade de consumo não foi definida, então parsa, EU vou defini-la dinamicamente.
 agente_guloso.consumo = 1/((sala.piso.x_size() + sala.piso.x_size())*2.5)
 
-aspirador = agente_guloso.sala = sala
+agente_guloso.sala = sala
 
 agente_guloso.configurar()
 agente_guloso.ativar()
